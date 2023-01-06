@@ -65,25 +65,19 @@ int main() {
     GLuint vbo {};
     glCreateBuffers(1, &vbo);
 
-    struct vertex {
-        float x, y, z;
-        float r, g, b;
+    float pos[] = {
+    -1, -1, 1,
+    0, 1, 1,
+    1, -1, 1,
     };
 
-    const std::vector<vertex> vertices {
-        {-1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, // Vertex 1
-        { 0.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f }, // Vertex 2
-        { 1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f }  // Vertex 3
-    };
-
-    glNamedBufferStorage(vbo, vertices.size() * sizeof(vertex), vertices.data(), 0);
+    glNamedBufferStorage(vbo, sizeof(pos), pos, 0);
     
     GLuint vao {};
     glCreateVertexArrays(1, &vao);
-    glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(vertex));
+    glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(float) * 3);
     glVertexArrayAttribBinding(vao, 0, 0);
     glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float));
-    glVertexArrayBindingDivisor(vao, 0, 0);
     glEnableVertexArrayAttrib(vao, 0);
 
     while(!glfwWindowShouldClose(window)) {
@@ -91,7 +85,7 @@ int main() {
         glClearColor(0.1, 0.1, 0.2, 1);
            
         glBindVertexArray(vao);
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
     }
