@@ -126,7 +126,7 @@ int main() {
 
     glVertexArrayVertexBuffer(vao, 1, vbo_color, 0, sizeof(float) * 3);
     glVertexArrayAttribBinding(vao, 1, 1);
-    glVertexArrayAttribFormat(vao, 1, 3, GL_FLAT, GL_FALSE, 0);
+    glVertexArrayAttribFormat(vao, 1, 3, GL_FLOAT, GL_FALSE, 0);
 
     glEnableVertexArrayAttrib(vao, 0);
     glEnableVertexArrayAttrib(vao, 1);
