@@ -100,29 +100,38 @@ int main() {
     GLuint vbo {};
     glCreateBuffers(1, &vbo);
 
+    GLuint vbo_color {};
+    glCreateBuffers(1, &vbo_color);
+
     float pos[] = {
-    -1, -1, 1,
-    0, 1, 1,
-    1, -1, 1,
+        -1, -1,
+         0,  1,
+         1, -1,
+    };
+
+    float colours[] = {
+        1.0f, 0.0f,  0.0f,
+        0.0f, 1.0f,  0.0f,
+        0.0f, 0.0f,  1.0f
     };
 
     glNamedBufferStorage(vbo, sizeof(pos), pos, 0);
-    
+    glNamedBufferStorage(vbo_color, sizeof(colours), colours, 0);
+
     GLuint vao {};
     glCreateVertexArrays(1, &vao);
-    glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(float) * 3);
+    glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(float) * 2);
     glVertexArrayAttribBinding(vao, 0, 0);
-    glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float));
-    glEnableVertexArrayAttrib(vao, 0);
+    glVertexArrayAttribFormat(vao, 0, 2, GL_FLOAT, GL_FALSE, 0);
 
-    float time = 0.f;
-    int location = glGetUniformLocation(program, "u_time");
-    assert(location != -1);
+    glVertexArrayVertexBuffer(vao, 1, vbo_color, 0, sizeof(float) * 3);
+    glVertexArrayAttribBinding(vao, 1, 1);
+    glVertexArrayAttribFormat(vao, 1, 3, GL_FLAT, GL_FALSE, 0);
+
+    glEnableVertexArrayAttrib(vao, 0);
+    glEnableVertexArrayAttrib(vao, 1);
 
     while(!glfwWindowShouldClose(window)) {
-        time += 0.01f;
-        glUniform1f(location, time);
-
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.1, 0.1, 0.2, 1);
            

@@ -1,7 +1,9 @@
 #version 330 core
-uniform float u_time;
+
+out vec4 frag_color;
+in vec3 colors;
 
 void main()
 {
-    gl_FragColor = vec4(abs(sin(u_time)), 0, 0, 1);
+    frag_color = vec4(colors, 1);
 } 
