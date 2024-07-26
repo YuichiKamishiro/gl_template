@@ -44,11 +44,21 @@ int main()
 
         float timeValue = glfwGetTime();
 
-        std::cout << timeValue << std::endl;
+        // std::cout << timeValue << std::endl;
         glUniform1f(uniformLocation, timeValue);
 
+        uniformLocation = glGetUniformLocation(programID, "iTime");
+
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        glUniform2f(uniformLocation, xpos / 1024, ypos / 768);
+
+
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        // std::cout << width << std::endl;
         uniformLocation = glGetUniformLocation(programID, "iResolution");
-        glUniform2f(uniformLocation, 1024., 768.);
+        glUniform2f(uniformLocation, width, height);
         
         draw1();
 
